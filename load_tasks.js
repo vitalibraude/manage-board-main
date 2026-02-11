@@ -14,11 +14,12 @@ async function loadTasksFromJSON() {
     return [];
 }
 
-// Load on page load
+// Load on page load - only if no data exists
 window.addEventListener('DOMContentLoaded', async () => {
     const saved = localStorage.getItem('taskflow_tasks');
-    if (!saved || confirm('לטעון פרויקטים מחדש מהאקסל?')) {
+    // Load only on first visit (no saved data)
+    if (!saved) {
+        console.log('📦 טוען נתונים ראשוניים מה-JSON...');
         await loadTasksFromJSON();
-        window.location.reload();
     }
 });

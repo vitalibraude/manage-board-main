@@ -300,69 +300,78 @@ class TaskFlowApp {
     }
 
     async saveTask(e = null) {
-        if (e) e.preventDefault();
-        
-        const taskData = {
-            id: this.editingTaskId || Date.now().toString(),
-            title: document.getElementById('taskTitle').value,
-            project: document.getElementById('taskProject').value,
-            developer: document.getElementById('taskDeveloper').value,
-            contact: document.getElementById('taskContact').value,
-            status: document.getElementById('taskStatus').value,
-            description: document.getElementById('taskDescription').value,
-            notes: [],
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString()
-        };
-
-        const note = document.getElementById('taskNote').value.trim();
-        if (note) {
-            taskData.notes.push({
-                text: note,
-                timestamp: new Date().toISOString(),
-                author: 'מנהל המערכת'
-            });
-        }
-
-        // Update local array
-        if (this.editingTaskId) {
-            const index = this.tasks.findIndex(t => t.id === this.editingTaskId);
-            const existingNotes = this.tasks[index].notes || [];
-            taskData.notes = [...existingNotes, ...taskData.notes];
-            this.tasks[index] = taskData;
+        try {
+            if (e) e.preventDefault();
             
-            // Update in Supabase
-            if (db.tablesReady) {
-                await db.updateTask(this.editingTaskId, {
-                    title: taskData.title,
-                    project: taskData.project,
-                    developer: taskData.developer,
-                    contact: taskData.contact,
-                    status: taskData.status,
-                    description: taskData.description
-                });
-                
-                // Add new note to Supabase
-                if (note) {
-                    await db.addNote(this.editingTaskId, taskData.notes[taskData.notes.length - 1]);
-                    console.log('✅ הערה נשמרה ב-Supabase!');
-                }
-            }
-        } else {
-            // Add new task
-            if (db.tablesReady) {
-                const newTask = await db.addTask(taskData);
-                if (newTask) {
-                    taskData.id = newTask.id.toString();
-                    console.log('✅ משימה חדשה נשמרה ב-Supabase!');
-                }
-            }
-            this.tasks.push(taskData);
-        }
+            console.log('💾 מתחיל שמירת משימה...');
+            
+            const taskData = {
+                id: this.editingTaskId || Date.now().toString(),
+                title: document.getElementById('taskTitle').value,
+                project: document.getElementById('taskProject').value,
+                developer: document.getElementById('taskDeveloper').value,
+                contact: document.getElementById('taskContact').value,
+                status: document.getElementById('taskStatus').value,
+                description: document.getElementById('taskDescription').value,
+                notes: [],
+                createdAt: new Date().toISOString(),
+                updatedAt: new Date().toISOString()
+            };
 
-        await this.saveTasks();
-        this.closeTaskModal();
-        this.renderView();
+            const note = document.getElementById('taskNote').value.trim();
+            if (note) {
+                taskData.notes.push({
+                    text: note,
+                    timestamp: new Date().toISOString(),
+                    author: 'מנהל המערכת'
+                });
+            }
+
+            // Update local array
+            if (this.editingTaskId) {
+                const index = this.tasks.findIndex(t => t.id === this.editingTaskId);
+                const existingNotes = this.tasks[index].notes || [];
+                taskData.notes = [...existingNotes, ...taskData.notes];
+                this.tasks[index] = taskData;
+                
+                // Update in Supabase
+                if (db.tablesReady) {
+                    await db.updateTask(this.editingTaskId, {
+                        title: taskData.title,
+                        project: taskData.project,
+                        developer: taskData.developer,
+                        contact: taskData.contact,
+                        status: taskData.status,
+                        description: taskData.description
+                    });
+                    
+                    // Add new note to Supabase
+                    if (note) {
+                        await db.addNote(this.editingTaskId, taskData.notes[taskData.notes.length - 1]);
+                        console.log('✅ הערה נשמרה ב-Supabase!');
+                    }
+                }
+            } else {
+                // Add new task
+                if (db.tablesReady) {
+                    const newTask = await db.addTask(taskData);
+                    if (newTask) {
+                        taskData.id = newTask.id.toString();
+                        console.log('✅ משימה חדשה נשמרה ב-Supabase!');
+                    }
+                }
+                this.tasks.push(taskData);
+            }
+
+            console.log('💾 שומר משימה ל-LocalStorage/Supabase...');
+            await this.saveTasks();
+            console.log('✅ משימה נשמרה בהצלחה!');
+            this.closeTaskModal();
+            this.renderView();
+        } catch (error) {
+            console.error('❌ שגיאה בשמירת משימה:', error);
+            alert('שגיאה בשמירה: ' + error.message);
+        }
     }
 
     editTask(taskId) {
