@@ -410,14 +410,27 @@ class TaskFlowApp {
         title.innerHTML = `<i class="fas fa-info-circle"></i> ${this.escapeHtml(task.title)}`;
         
         const notesHTML = task.notes && task.notes.length > 0 
-            ? task.notes.map(note => `
-                <div class="note-item" style="background: var(--light); padding: 0.75rem; border-radius: 6px; margin-bottom: 0.5rem;">
-                    <div style="color: var(--gray); font-size: 0.85rem; margin-bottom: 0.25rem;">
-                        <i class="fas fa-clock"></i> ${new Date(note.timestamp).toLocaleString('he-IL')}
+            ? task.notes.map(note => {
+                // Support both timestamp (LocalStorage) and created_at (Supabase)
+                const noteTime = note.created_at || note.timestamp;
+                const displayTime = noteTime ? new Date(noteTime).toLocaleString('he-IL', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) : '';
+                
+                return `
+                    <div class="note-item" style="background: var(--light); padding: 0.75rem; border-radius: 6px; margin-bottom: 0.5rem; border-left: 3px solid var(--primary);">
+                        <div style="color: var(--gray); font-size: 0.85rem; margin-bottom: 0.25rem;">
+                            <i class="fas fa-clock"></i> ${displayTime}
+                            ${note.author ? ` • <i class="fas fa-user"></i> ${this.escapeHtml(note.author)}` : ''}
+                        </div>
+                        <div style="color: var(--dark);">${this.escapeHtml(note.text)}</div>
                     </div>
-                    <div>${this.escapeHtml(note.text)}</div>
-                </div>
-            `).join('')
+                `;
+            }).join('')
             : '<p style="color: var(--gray);">אין הערות</p>';
         
         content.innerHTML = `
@@ -547,18 +560,26 @@ class TaskFlowApp {
             const dbTasks = await db.getTasks();
             if (dbTasks && dbTasks.length > 0) {
                 console.log(`✅ טעינת ${dbTasks.length} משימות מ-Supabase (בסיס הנתונים)`);
-                return dbTasks.map(t => ({
-                    id: t.id.toString(),
-                    title: t.title,
-                    project: t.project,
-                    developer: t.developer,
-                    contact: t.contact,
-                    status: t.status,
-                    description: t.description || '',
-                    notes: [],
-                    createdAt: t.created_at,
-                    updatedAt: t.updated_at
+                
+                // Load notes for each task
+                const tasksWithNotes = await Promise.all(dbTasks.map(async (t) => {
+                    const notes = await db.getNotes(t.id);
+                    return {
+                        id: t.id.toString(),
+                        title: t.title,
+                        project: t.project,
+                        developer: t.developer,
+                        contact: t.contact,
+                        status: t.status,
+                        description: t.description || '',
+                        notes: notes || [],
+                        createdAt: t.created_at,
+                        updatedAt: t.updated_at
+                    };
                 }));
+                
+                console.log(`📝 טעינת הערות לכל המשימות`);
+                return tasksWithNotes;
             } else {
                 console.log('📊 Supabase ריק - אין משימות עדיין');
                 return [];
