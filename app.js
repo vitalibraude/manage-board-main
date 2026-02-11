@@ -16,25 +16,29 @@ const CONTACTS = {
     'קיסריה': [
         { name: 'מוטי', role: 'מנהל פרויקטים', phone: '052-2330505', email: '' },
         { name: 'עוז', role: 'מנמ"ר', phone: '054-5521752', email: '' },
-        { name: 'נריה', role: 'איש קשר טכני', phone: '', email: '' }
+        { name: 'אחמד', role: 'איש קשר מאפיין מטעם הקרן', phone: '054-4212993', email: '' },
+        { name: 'אייל', role: 'בקרת תקציב', phone: '046-174876', email: '' },
+        { name: 'טובית', role: 'איש קשר מאפיין מטעם הקרן', phone: '054-4588615', email: '' }
     ],
     'רם אדרת': [
-        { name: 'דור', role: 'אפיון', phone: '', email: '' },
-        { name: 'עופר', role: 'ניהול פרויקטים', phone: '', email: '' }
+        { name: 'לאה', role: 'מנהלת פרויקטים חיצונית', phone: '052-5610052', email: '' },
+        { name: 'אשרת', role: 'סמנכלית משאבי אנוש', phone: '050-4442093', email: '' },
+        { name: 'מיקי', role: 'מנמ"ר', phone: '054-3001724', email: '' },
+        { name: 'אורן גלבוע', role: 'IT', phone: '054-4445387', email: '' }
     ],
     'נצרת': [
-        { name: 'איימן', role: 'תשתיות', phone: '', email: '' },
-        { name: 'רנא', role: 'איש קשר', phone: '', email: '' },
-        { name: 'פאדי', role: 'טכני', phone: '', email: '' }
+        { name: 'רנא', role: 'מנהלת רכש וכספים', phone: '054-6209963', email: '' },
+        { name: 'איימן', role: 'מנהל פרויקטים פרילנסר', phone: '050-6492975', email: '' }
     ],
     'AITECH': [
-        { name: 'דלית', role: 'ריטיינר', phone: '', email: '' },
-        { name: 'עופר', role: 'מנהל פרויקטים', phone: '', email: '' },
-        { name: 'אבי', role: 'מנהל טכני', phone: '', email: '' }
+        { name: 'עופר', role: 'מנמ"ר', phone: '050-5428073', email: '' },
+        { name: 'איתי', role: 'מנהל פרויקטים', phone: '058-7343769', email: '' },
+        { name: 'ענת', role: 'אשת קשר מאפיינת', phone: '054-2555875', email: '' }
     ],
     'מפעל הפיס': [
-        { name: 'יוסי', role: 'מנהל IT', phone: '', email: '' },
-        { name: 'רחל', role: 'איש קשר', phone: '', email: '' }
+        { name: 'דוד', role: 'מנהל פרויקטים', phone: '054-8029999', email: '' },
+        { name: 'יוסי', role: 'מנהל של דוד', phone: '054-4694271', email: '' },
+        { name: 'ערן', role: 'איש IT', phone: '054-7383919', email: '' }
     ]
 };
 
