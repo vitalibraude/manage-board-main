@@ -3,88 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="לוח ניהול משימות מתקדם עם תמיכה בעברית ואנגלית, גרירה ושחרור, ושמירה מקומית | Advanced Task Management Board with Hebrew/English support">
-    <meta name="keywords" content="task management, לוח משימות, kanban, todo list, Hebrew, English, drag and drop">
-    <meta name="author" content="Vitali Braude">
-    <meta property="og:title" content="לוח ניהול משימות - Task Management Board">
-    <meta property="og:description" content="מערכת ניהול משימות מודרנית עם תמיכה דו-לשונית">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://vitalibraude.github.io/manage-board-main/">
-    <title>לוח ניהול משימות - Task Management Board</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <title>TaskFlow Pro - ניהול פרויקטים מתקדם</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🎯 לוח ניהול משימות</h1>
-            <div class="header-controls">
-                <button id="langToggle" class="btn-secondary">EN</button>
-                <button id="addTaskBtn" class="btn-primary">+ משימה חדשה</button>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo">
+                    <i class="fas fa-tasks"></i>
+                    <h1>TaskFlow Pro</h1>
+                </div>
+                <div class="header-actions">
+                    <button id="toggleView" class="btn btn-secondary">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span id="viewLabel">מבט לפי מתכנת</span>
+                    </button>
+                    <button id="addTaskBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        משימה חדשה
+                    </button>
+                    <button id="dashboardBtn" class="btn btn-info">
+                        <i class="fas fa-chart-pie"></i>
+                        דאשבורד
+                    </button>
+                </div>
             </div>
         </header>
 
-        <div class="board">
-            <div class="column" data-status="todo">
-                <div class="column-header">
-                    <h2>📋 לביצוע</h2>
-                    <span class="task-count">0</span>
-                </div>
-                <div class="tasks-container" id="todoTasks"></div>
+        <!-- Contacts Directory -->
+        <div class="contacts-directory" id="contactsDirectory">
+            <div class="contacts-header">
+                <h3><i class="fas fa-address-book"></i> אנשי קשר מרכזיים</h3>
+                <button class="btn-close" onclick="toggleContacts()">×</button>
+            </div>
+            <div class="contacts-grid" id="contactsGrid"></div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- View by Project -->
+            <div id="projectView" class="view-container active">
+                <div class="projects-grid" id="projectsGrid"></div>
             </div>
 
-            <div class="column" data-status="inprogress">
-                <div class="column-header">
-                    <h2>⚙️ בתהליך</h2>
-                    <span class="task-count">0</span>
-                </div>
-                <div class="tasks-container" id="inprogressTasks"></div>
+            <!-- View by Developer -->
+            <div id="developerView" class="view-container">
+                <div class="developers-grid" id="developersGrid"></div>
             </div>
+        </main>
 
-            <div class="column" data-status="done">
-                <div class="column-header">
-                    <h2>✅ הושלם</h2>
-                    <span class="task-count">0</span>
+        <!-- Dashboard Modal -->
+        <div id="dashboardModal" class="modal">
+            <div class="modal-content dashboard-modal">
+                <div class="modal-header">
+                    <h2><i class="fas fa-chart-line"></i> דאשבורד אנליטי</h2>
+                    <button class="close-btn" onclick="closeDashboard()">&times;</button>
                 </div>
-                <div class="tasks-container" id="doneTasks"></div>
+                <div class="modal-body">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <i class="fas fa-clipboard-list"></i>
+                            <h3 id="totalTasks">0</h3>
+                            <p>סה"כ משימות</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-check-circle"></i>
+                            <h3 id="completedTasks">0</h3>
+                            <p>הושלמו</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-spinner"></i>
+                            <h3 id="inProgressTasks">0</h3>
+                            <p>בתהליך</p>
+                        </div>
+                        <div class="stat-card">
+                            <i class="fas fa-clock"></i>
+                            <h3 id="pendingTasks">0</h3>
+                            <p>ממתינות</p>
+                        </div>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="statusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Modal -->
+        <div id="taskModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="modalTitle"><i class="fas fa-plus-circle"></i> משימה חדשה</h2>
+                    <button class="close-btn" onclick="closeTaskModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="taskForm">
+                        <input type="hidden" id="taskId">
+                        
+                        <div class="form-group">
+                            <label for="taskTitle"><i class="fas fa-heading"></i> כותרת המשימה</label>
+                            <input type="text" id="taskTitle" required placeholder="הזן כותרת...">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="taskProject"><i class="fas fa-folder"></i> פרויקט</label>
+                                <select id="taskProject" required>
+                                    <option value="">בחר פרויקט...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="taskDeveloper"><i class="fas fa-user-tie"></i> מתכנת</label>
+                                <select id="taskDeveloper" required>
+                                    <option value="">בחר מתכנת...</option>
+                                    <option value="ולאד">ולאד</option>
+                                    <option value="זאק">זאק</option>
+                                    <option value="סרגי">סרגי</option>
+                                    <option value="ניקולה">ניקולה (אלכס)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="taskContact"><i class="fas fa-user"></i> איש קשר</label>
+                                <select id="taskContact" required>
+                                    <option value="">בחר איש קשר...</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="taskStatus"><i class="fas fa-tasks"></i> סטטוס</label>
+                                <select id="taskStatus" required>
+                                    <option value="תכנון">📋 תכנון</option>
+                                    <option value="ממתין לתמחור">⏳ ממתין לתמחור</option>
+                                    <option value="ממתין לאישור">⏰ ממתין לאישור</option>
+                                    <option value="בפיתוח">⚙️ בפיתוח</option>
+                                    <option value="בבדיקות">🔍 בבדיקות</option>
+                                    <option value="פידבקים">💬 פידבקים מלקוח</option>
+                                    <option value="הושהה">⏸️ הושהה</option>
+                                    <option value="גמור">✅ גמור</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="taskDescription"><i class="fas fa-align-left"></i> תיאור</label>
+                            <textarea id="taskDescription" rows="4" placeholder="תיאור המשימה..."></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="taskNote"><i class="fas fa-comment"></i> הערה חדשה</label>
+                            <textarea id="taskNote" rows="2" placeholder="הוסף הערה..."></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save"></i> שמור
+                            </button>
+                            <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">
+                                <i class="fas fa-times"></i> ביטול
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Details Modal -->
+        <div id="taskDetailsModal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 id="detailsTitle"></h2>
+                    <button class="close-btn" onclick="closeDetailsModal()">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div id="taskDetailsContent"></div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal for adding/editing tasks -->
-    <div id="taskModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2 id="modalTitle">משימה חדשה</h2>
-            <form id="taskForm">
-                <div class="form-group">
-                    <label for="taskTitle">כותרת:</label>
-                    <input type="text" id="taskTitle" required placeholder="הזן כותרת משימה">
-                </div>
-                <div class="form-group">
-                    <label for="taskDescription">תיאור:</label>
-                    <textarea id="taskDescription" rows="4" placeholder="הזן תיאור המשימה (אופציונלי)"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="taskPriority">עדיפות:</label>
-                    <select id="taskPriority">
-                        <option value="low">נמוכה</option>
-                        <option value="medium" selected>בינונית</option>
-                        <option value="high">גבוהה</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="taskDueDate">תאריך יעד:</label>
-                    <input type="date" id="taskDueDate">
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn-primary">שמור</button>
-                    <button type="button" class="btn-secondary" id="cancelBtn">ביטול</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
