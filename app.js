@@ -3,23 +3,15 @@
 
 // Data Structure
 const PROJECTS = {
-    'קיסריה': { icon: '🏛️', color: '#4f46e5' },
-    'רם אדרת': { icon: '🏢', color: '#06b6d4' },
-    'נצרת': { icon: '⛪', color: '#10b981' },
-    'AITECH': { icon: '🚀', color: '#f59e0b' },
-    'מפעל הפיס': { icon: '🎰', color: '#ef4444' }
+    'רם אדרת': { icon: '🏢', color: '#4f46e5' },
+    'נצרת': { icon: '⛪', color: '#06b6d4' },
+    'AITECH': { icon: '🚀', color: '#10b981' },
+    'מפעל הפיס': { icon: '🎰', color: '#f59e0b' }
 };
 
 const DEVELOPERS = ['ולאד', 'זאק', 'סרגי', 'ניקולה'];
 
 const CONTACTS = {
-    'קיסריה': [
-        { name: 'מוטי', role: 'מנהל פרויקטים', phone: '052-2330505', email: '' },
-        { name: 'עוז', role: 'מנמ"ר', phone: '054-5521752', email: '' },
-        { name: 'אחמד', role: 'איש קשר מאפיין מטעם הקרן', phone: '054-4212993', email: '' },
-        { name: 'אייל', role: 'בקרת תקציב', phone: '046-174876', email: '' },
-        { name: 'טובית', role: 'איש קשר מאפיין מטעם הקרן', phone: '054-4588615', email: '' }
-    ],
     'רם אדרת': [
         { name: 'לאה', role: 'מנהלת פרויקטים חיצונית', phone: '052-5610052', email: '' },
         { name: 'אשרת', role: 'סמנכלית משאבי אנוש', phone: '050-4442093', email: '' },
@@ -466,12 +458,12 @@ class TaskFlowApp {
         return [
             {
                 id: '1',
-                title: 'מערכת כתבי התחייבות - שינויים נוספים',
-                project: 'קיסריה',
-                developer: 'סרגי',
-                contact: 'מוטי',
+                title: 'פורטל עובדים',
+                project: 'רם אדרת',
+                developer: 'ולאד',
+                contact: 'לאה',
                 status: 'בפיתוח',
-                description: 'שינויים נוספים במערכת כתבי התחייבות לפי דרישות הלקוח',
+                description: 'פיתוח פורטל משאבי אנוש',
                 notes: [{
                     text: 'התחלנו פיתוח - צפי סיום עד סוף השבוע',
                     timestamp: new Date().toISOString(),
