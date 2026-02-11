@@ -53,13 +53,6 @@ class TaskFlowApp {
         this.init();
     }
 
-    init() {
-        this.renderContactsDirectory();
-        this.renderView();
-        this.setupEventListeners();
-        this.populateProjectDropdown();
-    }
-
     setupEventListeners() {
         document.getElementById('addTaskBtn').addEventListener('click', () => this.openTaskModal());
         document.getElementById('toggleView').addEventListener('click', () => this.toggleView());
@@ -445,46 +438,34 @@ class TaskFlowApp {
         document.getElementById('taskDetailsModal').classList.remove('active');
     }
 
-    loadTasks() {
+    async loadTasks() {
         const saved = localStorage.getItem('taskflow_tasks');
-        return saved ? JSON.parse(saved) : this.getDefaultTasks();
+        if (saved) {
+            return JSON.parse(saved);
+        }
+        // Load from Excel data
+        return await this.getDefaultTasks();
     }
 
     saveTasks() {
         localStorage.setItem('taskflow_tasks', JSON.stringify(this.tasks));
     }
 
-    getDefaultTasks() {
-        return [
-            {
-                id: '1',
-                title: 'פורטל עובדים',
-                project: 'רם אדרת',
-                developer: 'ולאד',
-                contact: 'לאה',
-                status: 'בפיתוח',
-                description: 'פיתוח פורטל משאבי אנוש',
-                notes: [{
-                    text: 'התחלנו פיתוח - צפי סיום עד סוף השבוע',
-                    timestamp: new Date().toISOString(),
-                    author: 'מנהל'
-                }],
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
-            },
-            {
-                id: '2',
-                title: 'DMS VSS',
-                project: 'AITECH',
-                developer: 'סרגי',
-                contact: 'עופר',
-                status: 'ממתין לאישור',
-                description: 'מערכת ניהול מסמכים VSS',
-                notes: [],
-                createdAt: new Date().toISOString(),
-                updatedAt: new Date().toISOString()
+    async getDefaultTasks() {
+        // Try to load from JSON file
+        try {
+            const response = await fetch('projects_data.json');
+            if (response.ok) {
+                const data = await response.json();
+                console.log(`✅ טעינת ${data.length} פרויקטים מהאקסל`);
+                return data;
             }
-        ];
+        } catch (error) {
+            console.log('לא נמצא קובץ JSON, משתמש בברירת מחדל');
+        }
+        
+        // Fallback to empty
+        return [];
     }
 
     darkenColor(color) {
