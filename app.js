@@ -309,6 +309,9 @@ class TaskFlowApp {
             
             console.log('💾 מתחיל שמירת משימה...');
             
+            // Get existing task data if editing
+            const existingTask = this.editingTaskId ? this.tasks.find(t => t.id === this.editingTaskId) : null;
+            
             const taskData = {
                 id: this.editingTaskId || Date.now().toString(),
                 title: document.getElementById('taskTitle').value,
@@ -317,8 +320,8 @@ class TaskFlowApp {
                 contact: document.getElementById('taskContact').value,
                 status: document.getElementById('taskStatus').value,
                 description: document.getElementById('taskDescription').value,
-                notes: [],
-                createdAt: new Date().toISOString(),
+                notes: existingTask ? [...(existingTask.notes || [])] : [], // Keep existing notes
+                createdAt: existingTask ? existingTask.createdAt : new Date().toISOString(),
                 updatedAt: new Date().toISOString()
             };
 
@@ -329,13 +332,14 @@ class TaskFlowApp {
                     timestamp: new Date().toISOString(),
                     author: 'מנהל המערכת'
                 });
+                console.log('📝 הוספת הערה חדשה:', note);
             }
+            
+            console.log('💾 סה"כ הערות במשימה:', taskData.notes.length);
 
             // Update local array
             if (this.editingTaskId) {
                 const index = this.tasks.findIndex(t => t.id === this.editingTaskId);
-                const existingNotes = this.tasks[index].notes || [];
-                taskData.notes = [...existingNotes, ...taskData.notes];
                 this.tasks[index] = taskData;
                 
                 // Update in Supabase
@@ -525,6 +529,7 @@ class TaskFlowApp {
 
     closeTaskModal() {
         document.getElementById('taskModal').classList.remove('active');
+        document.getElementById('taskNote').value = ''; // Clear note field
         this.editingTaskId = null;
     }
 
