@@ -148,7 +148,7 @@ class TaskFlowApp {
                 container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>אין משימות בפרויקט זה</p></div>';
             } else {
                 projectTasks.forEach(task => {
-                    container.appendChild(this.createTaskCard(task));
+                    container.appendChild(this.createTaskCard(task, 'project'));
                 });
             }
         });
@@ -183,16 +183,26 @@ class TaskFlowApp {
                 container.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>אין משימות למפתח זה</p></div>';
             } else {
                 devTasks.forEach(task => {
-                    container.appendChild(this.createTaskCard(task));
+                    container.appendChild(this.createTaskCard(task, 'developer'));
                 });
             }
         });
     }
 
-    createTaskCard(task) {
+    createTaskCard(task, viewType = 'project') {
         const card = document.createElement('div');
         card.className = 'task-card';
         card.style.borderRightColor = STATUS_COLORS[task.status] || '#4f46e5';
+        
+        // במבט לפי מתכנת - הצג את הפרויקט
+        // במבט לפי פרויקט - הצג את המתכנת
+        const displayTag = viewType === 'developer' 
+            ? `<span class="task-tag" style="background: ${PROJECTS[task.project]?.color}20; color: ${PROJECTS[task.project]?.color}">
+                   <i class="fas fa-folder"></i> ${task.project}
+               </span>`
+            : `<span class="task-tag tag-developer">
+                   <i class="fas fa-user-tie"></i> ${task.developer}
+               </span>`;
         
         card.innerHTML = `
             <div class="task-header">
@@ -210,9 +220,7 @@ class TaskFlowApp {
                 </div>
             </div>
             <div class="task-meta">
-                <span class="task-tag tag-developer">
-                    <i class="fas fa-user-tie"></i> ${task.developer}
-                </span>
+                ${displayTag}
                 <span class="task-tag tag-contact">
                     <i class="fas fa-user"></i> ${task.contact}
                 </span>
