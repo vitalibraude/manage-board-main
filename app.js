@@ -60,11 +60,45 @@ class TaskFlowApp {
     }
 
     async init() {
+        // Initialize Supabase connection
+        await db.initializeTables();
+        
+        // Load tasks
         this.tasks = await this.loadTasks();
         this.renderContactsDirectory();
         this.renderView();
         this.setupEventListeners();
         this.populateProjectDropdown();
+        
+        // Show connection status
+        if (db.tablesReady) {
+            console.log('✅ מחובר ל-Supabase - כל השינויים נשמרים בענן!');
+            this.showNotification('✅ מחובר למסד נתונים', 'success');
+        } else {
+            console.log('📦 משתמש ב-LocalStorage - צריך ליצור טבלאות ב-Supabase');
+            this.showNotification('⚠️ עובד במצב לוקאלי - צור טבלאות ב-Supabase', 'warning');
+        }
+    }
+    
+    showNotification(message, type = 'info') {
+        // Simple notification (can be enhanced)
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.textContent = message;
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: ${type === 'success' ? '#10b981' : '#f59e0b'};
+            color: white;
+            padding: 12px 24px;
+            border-radius: 8px;
+            z-index: 10000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        `;
+        document.body.appendChild(notification);
+        setTimeout(() => notification.remove(), 3000);
     }
 
     setupEventListeners() {
@@ -262,7 +296,7 @@ class TaskFlowApp {
         modal.classList.add('active');
     }
 
-    saveTask(e) {
+    async saveTask(e) {
         e.preventDefault();
         
         const taskData = {
@@ -287,12 +321,39 @@ class TaskFlowApp {
             });
         }
 
+        // Update local array
         if (this.editingTaskId) {
             const index = this.tasks.findIndex(t => t.id === this.editingTaskId);
             const existingNotes = this.tasks[index].notes || [];
             taskData.notes = [...existingNotes, ...taskData.notes];
             this.tasks[index] = taskData;
+            
+            // Update in Supabase
+            if (db.tablesReady) {
+                await db.updateTask(this.editingTaskId, {
+                    title: taskData.title,
+                    project: taskData.project,
+                    developer: taskData.developer,
+                    contact: taskData.contact,
+                    status: taskData.status,
+                    description: taskData.description
+                });
+                
+                // Add new note to Supabase
+                if (note) {
+                    await db.addNote(this.editingTaskId, taskData.notes[taskData.notes.length - 1]);
+                    console.log('✅ הערה נשמרה ב-Supabase!');
+                }
+            }
         } else {
+            // Add new task
+            if (db.tablesReady) {
+                const newTask = await db.addTask(taskData);
+                if (newTask) {
+                    taskData.id = newTask.id.toString();
+                    console.log('✅ משימה חדשה נשמרה ב-Supabase!');
+                }
+            }
             this.tasks.push(taskData);
         }
 
@@ -305,8 +366,15 @@ class TaskFlowApp {
         this.openTaskModal(taskId);
     }
 
-    deleteTask(taskId) {
+    async deleteTask(taskId) {
         if (confirm('האם אתה בטוח שברצונך למחוק משימה זו?')) {
+            // Delete from Supabase
+            if (db.tablesReady) {
+                await db.deleteTask(taskId);
+                console.log('✅ משימה נמחקה מ-Supabase!');
+            }
+            
+            // Delete from local array
             this.tasks = this.tasks.filter(t => t.id !== taskId);
             this.saveTasks();
             this.renderView();
@@ -453,16 +521,46 @@ class TaskFlowApp {
     }
 
     async loadTasks() {
+        // Try Supabase first
+        const dbTasks = await db.getTasks();
+        if (dbTasks && dbTasks.length > 0) {
+            console.log(`✅ טעינת ${dbTasks.length} משימות מ-Supabase`);
+            return dbTasks.map(t => ({
+                id: t.id.toString(),
+                title: t.title,
+                project: t.project,
+                developer: t.developer,
+                contact: t.contact,
+                status: t.status,
+                description: t.description || '',
+                notes: [],
+                createdAt: t.created_at,
+                updatedAt: t.updated_at
+            }));
+        }
+
+        // Fallback to LocalStorage
         const saved = localStorage.getItem('taskflow_tasks');
         if (saved) {
+            console.log('📦 טעינה מ-LocalStorage');
             return JSON.parse(saved);
         }
+        
         // Load from Excel data
-        return await this.getDefaultTasks();
+        const defaultTasks = await this.getDefaultTasks();
+        console.log(`📊 טעינת ${defaultTasks.length} משימות מה-JSON`);
+        return defaultTasks;
     }
 
-    saveTasks() {
+    async saveTasks() {
+        // Save to LocalStorage (always as backup)
         localStorage.setItem('taskflow_tasks', JSON.stringify(this.tasks));
+        
+        // Try to save to Supabase if available
+        if (db.tablesReady) {
+            console.log('💾 שומר ל-Supabase...');
+            // Note: Individual tasks are saved via addTask/updateTask
+        }
     }
 
     async getDefaultTasks() {
