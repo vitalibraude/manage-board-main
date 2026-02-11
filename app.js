@@ -105,7 +105,10 @@ class TaskFlowApp {
         document.getElementById('addTaskBtn').addEventListener('click', () => this.openTaskModal());
         document.getElementById('toggleView').addEventListener('click', () => this.toggleView());
         document.getElementById('dashboardBtn').addEventListener('click', () => this.openDashboard());
-        document.getElementById('taskForm').addEventListener('submit', (e) => this.saveTask(e));
+        document.getElementById('taskForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await this.saveTask(e);
+        });
         document.getElementById('taskProject').addEventListener('change', (e) => this.updateContactDropdown(e.target.value));
     }
 
@@ -296,8 +299,8 @@ class TaskFlowApp {
         modal.classList.add('active');
     }
 
-    async saveTask(e) {
-        e.preventDefault();
+    async saveTask(e = null) {
+        if (e) e.preventDefault();
         
         const taskData = {
             id: this.editingTaskId || Date.now().toString(),
@@ -357,7 +360,7 @@ class TaskFlowApp {
             this.tasks.push(taskData);
         }
 
-        this.saveTasks();
+        await this.saveTasks();
         this.closeTaskModal();
         this.renderView();
     }
@@ -376,7 +379,7 @@ class TaskFlowApp {
             
             // Delete from local array
             this.tasks = this.tasks.filter(t => t.id !== taskId);
-            this.saveTasks();
+            await this.saveTasks();
             this.renderView();
         }
     }

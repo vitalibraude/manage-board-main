@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test TaskFlow</title>
+</head>
+<body>
+    <h1>Test: כנס לקונסול (F12) ותראה אם יש שגיאות</h1>
+    <form id="testForm">
+        <input type="text" id="testInput" value="test">
+        <button type="submit">שמור</button>
+    </form>
+    
+    <script>
+        document.getElementById('testForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            console.log('Form submitted!');
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            console.log('Form saved!');
+            alert('נשמר בהצלחה!');
+        });
+    </script>
+</body>
+</html>
