@@ -1,158 +1,249 @@
-# 🎯 Task Management Board - לוח ניהול משימות
+# 🚀 TaskFlow Pro - מערכת ניהול פרויקטים מקצועית
 
-![Task Board Demo](https://img.shields.io/badge/status-active-success)
+![TaskFlow Pro](https://img.shields.io/badge/status-active-success)
 ![License](https://img.shields.io/badge/license-MIT-blue)
-![Language](https://img.shields.io/badge/languages-Hebrew%20%7C%20English-orange)
+![Language](https://img.shields.io/badge/language-Hebrew-orange)
 
-אפליקציית ניהול משימות מודרנית עם תמיכה מלאה בעברית ואנגלית, גרירה ושחרור (Drag & Drop), ושמירה מקומית.
+מערכת ניהול פרויקטים מתקדמת שפותחה במיוחד עבור Ofekpoint לניהול פרויקטים מול לקוחות מרכזיים.
 
-A modern task management application with full Hebrew and English support, drag & drop functionality, and local storage.
+A professional project management system developed specifically for Ofekpoint to manage projects with key clients.
 
-## ✨ Features / תכונות
+---
 
-### עברית 🇮🇱
-- 📋 **ניהול משימות מלא** - צור, ערוך ומחק משימות בקלות
-- 🎨 **ממשק משתמש מעוצב** - עיצוב מודרני ואינטואיטיבי
-- 🔄 **גרירה ושחרור** - העבר משימות בין עמודות בקלות
-- 🌍 **דו-לשוני** - תמיכה מלאה בעברית ואנגלית
-- 💾 **שמירה אוטומטית** - כל המשימות נשמרות ב-LocalStorage
-- 📅 **תאריכי יעד** - הגדר תאריכי יעד למשימות
-- ⚡ **סימון עדיפות** - נמוכה, בינונית, גבוהה
-- 📱 **Responsive** - עובד מצוין על כל המכשירים
+## ✨ תכונות מרכזיות / Key Features
 
-### English 🇺🇸
-- 📋 **Full Task Management** - Create, edit, and delete tasks easily
-- 🎨 **Modern UI** - Beautiful and intuitive interface
-- 🔄 **Drag & Drop** - Move tasks between columns seamlessly
-- 🌍 **Bilingual** - Full Hebrew and English support
-- 💾 **Auto-Save** - All tasks saved in LocalStorage
-- 📅 **Due Dates** - Set deadlines for tasks
-- ⚡ **Priority Levels** - Low, Medium, High
-- 📱 **Responsive** - Works great on all devices
+### 🎯 **מבט כפול (Dual View)**
+- **מבט לפי פרויקט** - ראה את כל המשימות לפי לקוח (קיסריה, רם אדרת, נצרת, AITECH, מפעל הפיס)
+- **מבט לפי מתכנת** - ראה את העומס על כל מפתח (ולאד, זאק, סרגי, ניקולה)
 
-## 🚀 Live Demo
+### 📞 **ספריית אנשי קשר**
+ניהול מרוכז של כל אנשי הקשר המרכזיים:
+- **קיסריה**: מוטי (מנהל פרויקטים), עוז (מנמ"ר), נריה (טכני)
+- **רם אדרת**: דור (אפיון), עופר (ניהול)
+- **נצרת**: איימן (תשתיות), רנא, פאדי
+- **AITECH**: דלית (ריטיינר), עופר, אבי
+- **מפעל הפיס**: יוסי, רחל
 
-**🌐 View the live application here:**
+### 📊 **ניהול סטטוסים מתקדם**
+8 סטטוסים שונים עם צבעים ייחודיים:
+- 📋 תכנון
+- ⏳ ממתין לתמחור
+- ⏰ ממתין לאישור
+- ⚙️ בפיתוח
+- 🔍 בבדיקות
+- 💬 פידבקים מלקוח
+- ⏸️ הושהה
+- ✅ גמור
+
+### 💬 **יומן הערות עם Timestamps**
+כל משימה כוללת יומן הערות מפורט עם:
+- חותמת זמן מדויקת
+- מעקב אחר כל שינוי
+- היסטוריה מלאה של התקדמות
+
+### 📈 **דאשבורד אנליטי**
+- סטטיסטיקות בזמן אמת
+- תרשים עוגה אינטראקטיבי
+- מעקב אחר התקדמות פרויקטים
+- ניתוח עומסים על מפתחים
+
+### 🎨 **עיצוב מודרני**
+- ממשק משתמש אינטואיטיבי
+- תמיכה מלאה בעברית (RTL)
+- Responsive לכל המכשירים
+- אנימציות חלקות
+- צבעים מותאמים אישית לכל פרויקט
+
+---
+
+## 🌐 Live Demo
+
+**גישה לאפליקציה:**
+
+### GitHub Pages (אחרי הפעלה)
 👉 **https://vitalibraude.github.io/manage-board-main/**
 
-Or run locally:
+### הרצה מקומית
 ```bash
-# Clone the repository
+# שכפול הפרויקט
 git clone https://github.com/vitalibraude/manage-board-main.git
 
-# Navigate to directory
+# כניסה לתיקייה
 cd manage-board-main
 
-# Open index.html in your browser
-# Or use a local server:
+# הרצת שרת מקומי
 python -m http.server 8000
-# Then visit: http://localhost:8000
+
+# גלוש ל: http://localhost:8000
 ```
 
-## 📖 How to Use / איך להשתמש
+---
 
-### עברית
-1. **הוסף משימה חדשה** - לחץ על כפתור "+ משימה חדשה"
-2. **מלא פרטים** - הזן כותרת, תיאור, עדיפות ותאריך יעד
-3. **גרור משימות** - גרור משימות בין העמודות:
-   - 📋 **לביצוע** - משימות חדשות
-   - ⚙️ **בתהליך** - משימות פעילות
-   - ✅ **הושלם** - משימות שהושלמו
-4. **ערוך או מחק** - לחץ על האייקונים בכרטיס המשימה
-5. **החלף שפה** - לחץ על "EN" להחלפה לאנגלית
+## 🎯 איך להשתמש / How to Use
 
-### English
-1. **Add New Task** - Click "+ New Task" button
-2. **Fill Details** - Enter title, description, priority, and due date
-3. **Drag Tasks** - Drag tasks between columns:
-   - 📋 **To Do** - New tasks
-   - ⚙️ **In Progress** - Active tasks
-   - ✅ **Done** - Completed tasks
-4. **Edit or Delete** - Click icons on task card
-5. **Switch Language** - Click "עב" to switch to Hebrew
+### 1️⃣ **הוספת משימה חדשה**
+- לחץ על "משימה חדשה"
+- בחר פרויקט, מתכנת ואיש קשר
+- הוסף כותרת ותיאור
+- בחר סטטוס ראשוני
+- שמור
 
-## 🛠️ Technology Stack
+### 2️⃣ **מעבר בין תצוגות**
+- לחץ על "מבט לפי מתכנת" / "מבט לפי פרויקט"
+- עבור בין תצוגות לפי הצורך
+- כל המשימות מסונכרנות
 
-- **HTML5** - Semantic markup
-- **CSS3** - Modern styling with flexbox and grid
-- **JavaScript (ES6+)** - Vanilla JavaScript, no frameworks
-- **LocalStorage API** - Client-side data persistence
-- **Drag and Drop API** - Native browser drag and drop
+### 3️⃣ **עדכון משימה**
+- לחץ על אייקון העריכה ✏️
+- עדכן את הפרטים
+- הוסף הערה חדשה
+- השינויים נשמרים אוטומטית
 
-## 📁 Project Structure
+### 4️⃣ **צפייה בפרטים**
+- לחץ על אייקון העין 👁️
+- ראה את כל הפרטים
+- עיין בהיסטוריית ההערות
+- עקוב אחר ציר הזמן
+
+### 5️⃣ **ניתוח והדאשבורד**
+- לחץ על "דאשבורד"
+- צפה בסטטיסטיקות
+- נתח את חלוקת המשימות
+- בחן את העומס על המפתחים
+
+---
+
+## 🏗 מבנה הפרויקט / Project Structure
 
 ```
 manage-board-main/
-├── index.html       # Main HTML file
-├── style.css        # Styling and layout
-├── script.js        # Application logic
-├── README.md        # Documentation
-└── .gitignore       # Git ignore rules
+├── index.html          # HTML ראשי עם מבנה האפליקציה
+├── style.css           # עיצוב מודרני ואנימציות
+├── app.js              # לוגיקת JavaScript מלאה
+├── README.md           # תיעוד (קובץ זה)
+├── .nojekyll          # לביצועים טובים יותר ב-GitHub Pages
+└── .gitignore         # קבצים שלא נכללים ב-Git
 ```
 
-## 🎯 Features in Detail
+---
 
-### Task Properties
-- **Title** - Brief task description
-- **Description** - Detailed task information (optional)
-- **Priority** - Low (blue), Medium (yellow), High (red)
-- **Due Date** - Optional deadline with visual indicators
-- **Status** - To Do, In Progress, Done
+## 🛠 טכנולוגיות / Technologies
 
-### UI Features
-- **Drag & Drop** - Smooth task movement between columns
-- **Visual Feedback** - Hover effects and drag indicators
-- **Responsive Design** - Mobile, tablet, and desktop support
-- **RTL/LTR Support** - Proper text direction for both languages
-- **Modal Forms** - Clean task creation and editing
-- **Empty States** - Helpful messages when columns are empty
-
-## 🔒 Privacy
-
-All data is stored locally in your browser's LocalStorage. No data is sent to any server. Your tasks remain completely private on your device.
-
-## 🌟 GitHub Pages Setup
-
-To enable GitHub Pages for this repository:
-
-1. Go to your repository on GitHub: `https://github.com/vitalibraude/manage-board-main`
-2. Click on **Settings** (⚙️)
-3. Scroll down to **Pages** section (in the left sidebar)
-4. Under **Source**, select:
-   - Branch: `main`
-   - Folder: `/ (root)`
-5. Click **Save**
-6. Wait a few minutes for deployment
-7. Your site will be live at: `https://vitalibraude.github.io/manage-board-main/`
-
-## 📝 License
-
-MIT License - feel free to use this project for personal or commercial purposes.
-
-## 👨‍💻 Author
-
-Created with ❤️ by Vitali Braude
+- **HTML5** - מבנה סמנטי
+- **CSS3** - עיצוב מודרני עם Flexbox & Grid
+- **JavaScript (ES6+)** - Vanilla JS ללא ספריות
+- **Chart.js** - תרשימים אינטראקטיביים
+- **Font Awesome** - אייקונים
+- **LocalStorage** - שמירת נתונים מקומית
 
 ---
 
-## 📸 Screenshots
+## 📋 לקוחות ומפתחים / Clients & Developers
 
-### Hebrew Interface (RTL)
-The application features a beautiful right-to-left interface for Hebrew users with:
-- Intuitive task cards
-- Color-coded priorities
-- Smooth animations
+### 🏢 **לקוחות**
+1. **קיסריה** 🏛️ - הלקוח הגדול ביותר
+2. **רם אדרת** 🏢 - ניהול פרויקטים
+3. **נצרת** ⛪ - תשתיות ופיתוח
+4. **AITECH** 🚀 - ריטיינר חודשי
+5. **מפעל הפיס** 🎰 - מערכות מיוחדות
 
-### English Interface (LTR)
-Full English support with left-to-right layout:
-- Clean modern design
-- Drag and drop functionality
-- Responsive across devices
+### 👨‍💻 **צוות הפיתוח**
+1. **ולאד** - טפסים וענן, מהיר ואיכותי
+2. **זאק** - טפסים בסיסיים, צריך הדרכה מפורטת
+3. **סרגי** - מערכות מורכבות, איכות גבוהה מאוד
+4. **ניקולה (אלכס)** - מערכות ו-SharePoint
 
 ---
 
-**⭐ If you find this project useful, please give it a star on GitHub!**
+## 🔐 אבטחה ופרטיות / Security & Privacy
 
-**🐛 Found a bug or have a suggestion? Open an issue!**
+✅ **כל הנתונים נשמרים מקומית** בדפדפן  
+✅ **אין שרתים חיצוניים**  
+✅ **פרטיות מלאה**  
+✅ **LocalStorage מוצפן בדפדפן**  
+✅ **אין העברת מידע לשרתים**
 
-**🤝 Contributions are welcome! Feel free to fork and submit a PR.**
+---
+
+## 🌟 הפעלת GitHub Pages / Enable GitHub Pages
+
+### צעדים:
+
+1. **כנס להגדרות:**
+   ```
+   https://github.com/vitalibraude/manage-board-main/settings/pages
+   ```
+
+2. **הגדר מקור:**
+   - Source: **Deploy from a branch**
+   - Branch: **`main`**
+   - Folder: **`/ (root)`**
+   - לחץ **Save**
+
+3. **המתן 2-5 דקות**
+
+4. **האתר יהיה זמין ב:**
+   ```
+   https://vitalibraude.github.io/manage-board-main/
+   ```
+
+---
+
+## 📸 צילומי מסך / Screenshots
+
+### מבט לפי פרויקט
+ממשק מעוצב המציג את כל המשימות מקובצות לפי לקוחות עם צבעים ייחודיים.
+
+### מבט לפי מתכנת
+תצוגה המאפשרת לראות את העומס על כל מפתח ולנהל את המשימות שלו.
+
+### דאשבורד אנליטי
+תרשימים וסטטיסטיקות בזמן אמת על מצב הפרויקטים.
+
+---
+
+## 🚀 תכונות עתידיות / Future Features
+
+- [ ] ייצוא נתונים ל-Excel
+- [ ] התראות על משימות דחופות
+- [ ] שילוב עם קובץ Excel מקורי
+- [ ] מערכת התראות במייל
+- [ ] דוחות אוטומטיים
+- [ ] סינון ו חיפוש מתקדם
+- [ ] תגיות מותאמות אישית
+- [ ] גיבוי ענן
+
+---
+
+## 👨‍💻 מפתח / Developer
+
+**פותח עבור:** Ofekpoint  
+**מנהל הפרויקט:** Yuval  
+**נבנה עם:** ❤️ ו-☕
+
+---
+
+## 📝 רישיון / License
+
+MIT License - ניתן לשימוש חופשי
+
+---
+
+## 📞 צור קשר / Contact
+
+לשאלות, הצעות או תמיכה:
+- פתח **Issue** ב-GitHub
+- שלח **Pull Request** עם שיפורים
+- צור קשר דרך GitHub
+
+---
+
+**⭐ אם האפליקציה עוזרת לך - תן כוכב ב-GitHub!**
+
+**🐛 מצאת באג? פתח Issue!**
+
+**🤝 רוצה לתרום? Pull Requests מתקבלים בברכה!**
+
+---
+
+Made with 💙 for better project management
