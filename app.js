@@ -34,15 +34,21 @@ const CONTACTS = {
     ]
 };
 
+// 12 סטטוסים לפי תהליך העבודה
 const STATUS_COLORS = {
-    'תכנון': '#94a3b8',
-    'ממתין לתמחור': '#f59e0b',
-    'ממתין לאישור': '#fbbf24',
-    'בפיתוח': '#3b82f6',
-    'בבדיקות': '#8b5cf6',
-    'פידבקים': '#ec4899',
-    'הושהה': '#ef4444',
-    'גמור': '#10b981'
+    'אפיין': '#9333EA',
+    'החלנו אפיון': '#A855F7',
+    'סיימנו אפיון': '#7C3AED',
+    'נשלח אפיון ללקוח': '#6366F1',
+    'הלקוח נתן תיקונים לאפיון': '#EF4444',
+    'הלקוח אישר אפיון': '#10B981',
+    'אצל המתכנת': '#F59E0B',
+    'המתכנת סיים': '#3B82F6',
+    'QA: הQA נתן הערות': '#F97316',
+    'QA: אישר': '#14B8A6',
+    'הלקוח ראה פיתוח והוסיף הערות': '#EC4899',
+    'הלקוח אישר': '#22C55E',
+    'משימה גמורה': '#059669'
 };
 
 class TaskFlowApp {
@@ -364,9 +370,9 @@ class TaskFlowApp {
         const modal = document.getElementById('dashboardModal');
         
         const total = this.tasks.length;
-        const completed = this.tasks.filter(t => t.status === 'גמור').length;
-        const inProgress = this.tasks.filter(t => ['בפיתוח', 'בבדיקות'].includes(t.status)).length;
-        const pending = this.tasks.filter(t => ['תכנון', 'ממתין לתמחור', 'ממתין לאישור'].includes(t.status)).length;
+        const completed = this.tasks.filter(t => ['הלקוח אישר', 'משימה גמורה'].includes(t.status)).length;
+        const inProgress = this.tasks.filter(t => ['אצל המתכנת', 'המתכנת סיים', 'QA: הQA נתן הערות', 'QA: אישר', 'הלקוח ראה פיתוח והוסיף הערות'].includes(t.status)).length;
+        const pending = this.tasks.filter(t => ['אפיין', 'החלנו אפיון', 'סיימנו אפיון', 'נשלח אפיון ללקוח', 'הלקוח נתן תיקונים לאפיון', 'הלקוח אישר אפיון'].includes(t.status)).length;
         
         document.getElementById('totalTasks').textContent = total;
         document.getElementById('completedTasks').textContent = completed;
