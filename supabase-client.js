@@ -254,3 +254,16 @@ class SupabaseDB {
 
 // Export instance
 const db = new SupabaseDB();
+
+// Initialize tables on load
+db.initializeTables().then(() => {
+    if (db.tablesReady) {
+        console.log('✅ Supabase מחובר - כל השינויים נשמרים בענן!');
+    } else {
+        console.log('⚠️ Supabase לא זמין - משתמש ב-LocalStorage בלבד');
+        console.log('👉 כדי להפעיל: הרץ את supabase_schema.sql בדשבורד');
+    }
+}).catch(err => {
+    console.warn('⚠️ לא ניתן להתחבר ל-Supabase:', err.message);
+    console.log('📦 משתמש ב-LocalStorage בלבד');
+});
