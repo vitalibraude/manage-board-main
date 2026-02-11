@@ -542,35 +542,40 @@ class TaskFlowApp {
     }
 
     async loadTasks() {
-        // Try Supabase first (if available)
-        const dbTasks = typeof db !== 'undefined' ? await db.getTasks() : null;
-        if (dbTasks && dbTasks.length > 0) {
-            console.log(`✅ טעינת ${dbTasks.length} משימות מ-Supabase`);
-            return dbTasks.map(t => ({
-                id: t.id.toString(),
-                title: t.title,
-                project: t.project,
-                developer: t.developer,
-                contact: t.contact,
-                status: t.status,
-                description: t.description || '',
-                notes: [],
-                createdAt: t.created_at,
-                updatedAt: t.updated_at
-            }));
+        // 1️⃣ Try Supabase FIRST (main source)
+        if (typeof db !== 'undefined' && db.tablesReady) {
+            const dbTasks = await db.getTasks();
+            if (dbTasks && dbTasks.length > 0) {
+                console.log(`✅ טעינת ${dbTasks.length} משימות מ-Supabase (בסיס הנתונים)`);
+                return dbTasks.map(t => ({
+                    id: t.id.toString(),
+                    title: t.title,
+                    project: t.project,
+                    developer: t.developer,
+                    contact: t.contact,
+                    status: t.status,
+                    description: t.description || '',
+                    notes: [],
+                    createdAt: t.created_at,
+                    updatedAt: t.updated_at
+                }));
+            } else {
+                console.log('📊 Supabase ריק - אין משימות עדיין');
+                return [];
+            }
         }
 
-        // Fallback to LocalStorage
+        // 2️⃣ Fallback to LocalStorage (if Supabase not ready)
+        console.warn('⚠️  Supabase לא זמין - משתמש ב-LocalStorage');
         const saved = localStorage.getItem('taskflow_tasks');
         if (saved) {
-            console.log('📦 טעינה מ-LocalStorage');
+            console.log('📦 טעינה מ-LocalStorage (גיבוי מקומי)');
             return JSON.parse(saved);
         }
         
-        // Load from Excel data
-        const defaultTasks = await this.getDefaultTasks();
-        console.log(`📊 טעינת ${defaultTasks.length} משימות מה-JSON`);
-        return defaultTasks;
+        // 3️⃣ Empty state
+        console.log('🆕 אין נתונים - התחלה ריקה');
+        return [];
     }
 
     async saveTasks() {
@@ -584,22 +589,8 @@ class TaskFlowApp {
         }
     }
 
-    async getDefaultTasks() {
-        // Try to load from JSON file
-        try {
-            const response = await fetch('projects_data.json');
-            if (response.ok) {
-                const data = await response.json();
-                console.log(`✅ טעינת ${data.length} פרויקטים מהאקסל`);
-                return data;
-            }
-        } catch (error) {
-            console.log('לא נמצא קובץ JSON, משתמש בברירת מחדל');
-        }
-        
-        // Fallback to empty
-        return [];
-    }
+    // ❌ Removed getDefaultTasks - NO MORE EXCEL/JSON!
+    // All data comes from Supabase database only.
 
     darkenColor(color) {
         const hex = color.replace('#', '');
