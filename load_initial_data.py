@@ -17,7 +17,7 @@ PROJECTS_DATA = [
         "project": "רם אדרת",
         "developer": "סרגי",
         "contact": "לאה",
-        "status": "נשלח אפיון ללקוח",
+        "status": "תהליך האפיון החל",
         "description": "מערכת ניהול מסמכים VSS"
     },
     {
@@ -25,7 +25,7 @@ PROJECTS_DATA = [
         "project": "רם אדרת",
         "developer": "סרגי",
         "contact": "לאה",
-        "status": "נשלח אפיון ללקוח",
+        "status": "תהליך האפיון החל",
         "description": "DMS עבור לקוחות חיצוניים"
     },
     {
@@ -33,7 +33,7 @@ PROJECTS_DATA = [
         "project": "רם אדרת",
         "developer": "ולאד",
         "contact": "אשרת",
-        "status": "נשלח אפיון ללקוח",
+        "status": "תהליך האפיון החל",
         "description": "תהליך BGA"
     },
     {
@@ -41,7 +41,7 @@ PROJECTS_DATA = [
         "project": "רם אדרת",
         "developer": "זאק",
         "contact": "מיקי",
-        "status": "נשלח אפיון ללקוח",
+        "status": "תהליך האפיון החל",
         "description": "מערכת תמיכה טכנית"
     },
     {
@@ -49,7 +49,7 @@ PROJECTS_DATA = [
         "project": "רם אדרת",
         "developer": "ניקולה",
         "contact": "אורן גלבוע",
-        "status": "נשלח אפיון ללקוח",
+        "status": "תהליך האפיון החל",
         "description": "ניהול תיקי ייצור עם אינטגרציה למערכות"
     },
     {
@@ -57,7 +57,7 @@ PROJECTS_DATA = [
         "project": "נצרת",
         "developer": "זאק",
         "contact": "רנא",
-        "status": "משימה גמורה",
+        "status": "המשימה גמורה",
         "description": "פורטל עם 4 תהליכים עסקיים"
     },
     {
@@ -65,7 +65,7 @@ PROJECTS_DATA = [
         "project": "נצרת",
         "developer": "סרגי",
         "contact": "איימן",
-        "status": "אצל המתכנת",
+        "status": "נשלח למתכנת",
         "description": "DMS כולל מיגרציית מסמכים קיימים"
     },
     {
@@ -73,7 +73,7 @@ PROJECTS_DATA = [
         "project": "AITECH",
         "developer": "זאק",
         "contact": "עופר",
-        "status": "נשלח אפיון ללקוח",
+        "status": "תהליך האפיון החל",
         "description": "תהליך בקשה לרכישת רכוש קבוע"
     },
     {
@@ -81,7 +81,7 @@ PROJECTS_DATA = [
         "project": "AITECH",
         "developer": "ניקולה",
         "contact": "איתי",
-        "status": "נשלח אפיון ללקוח",
+        "status": "תהליך האפיון החל",
         "description": "תהליך פתיחת ספק חדש"
     },
     {
@@ -89,7 +89,7 @@ PROJECTS_DATA = [
         "project": "AITECH",
         "developer": "זאק",
         "contact": "ענת",
-        "status": "אצל המתכנת",
+        "status": "נשלח למתכנת",
         "description": "תהליך קליטת עובד חדש"
     },
     {
@@ -97,7 +97,7 @@ PROJECTS_DATA = [
         "project": "AITECH",
         "developer": "ולאד",
         "contact": "ענת",
-        "status": "אצל המתכנת",
+        "status": "נשלח למתכנת",
         "description": "תהליך עזיבת עובד"
     },
     {
@@ -105,7 +105,7 @@ PROJECTS_DATA = [
         "project": "AITECH",
         "developer": "סרגי",
         "contact": "עופר",
-        "status": "אצל המתכנת",
+        "status": "נשלח למתכנת",
         "description": "פורום לניהול תהליכי ייצור"
     },
     {

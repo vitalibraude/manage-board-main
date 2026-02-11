@@ -36,19 +36,16 @@ const CONTACTS = {
 
 // 12 סטטוסים לפי תהליך העבודה
 const STATUS_COLORS = {
-    'אפיין': '#9333EA',
-    'החלנו אפיון': '#A855F7',
-    'סיימנו אפיון': '#7C3AED',
-    'נשלח אפיון ללקוח': '#6366F1',
-    'הלקוח נתן תיקונים לאפיון': '#EF4444',
-    'הלקוח אישר אפיון': '#10B981',
-    'אצל המתכנת': '#F59E0B',
-    'המתכנת סיים': '#3B82F6',
-    'QA: הQA נתן הערות': '#F97316',
-    'QA: אישר': '#14B8A6',
-    'הלקוח ראה פיתוח והוסיף הערות': '#EC4899',
-    'הלקוח אישר': '#22C55E',
-    'משימה גמורה': '#059669'
+    'נדרש לאפיין': '#9333EA',
+    'תהליך האפיון החל': '#A855F7',
+    'נדרש אומדן מחיר': '#F59E0B',
+    'אומדן מחיר נשלח ללקוח': '#6366F1',
+    'הלקוח אישר הצעת מחיר': '#10B981',
+    'נשלח למתכנת': '#3B82F6',
+    'נשלח לQA': '#14B8A6',
+    'QA החזיר הערות': '#F97316',
+    'לקוח החזיר הערות': '#EC4899',
+    'המשימה גמורה': '#059669'
 };
 
 class TaskFlowApp {
@@ -566,9 +563,9 @@ class TaskFlowApp {
         const modal = document.getElementById('dashboardModal');
         
         const total = this.tasks.length;
-        const completed = this.tasks.filter(t => ['הלקוח אישר', 'משימה גמורה'].includes(t.status)).length;
-        const inProgress = this.tasks.filter(t => ['אצל המתכנת', 'המתכנת סיים', 'QA: הQA נתן הערות', 'QA: אישר', 'הלקוח ראה פיתוח והוסיף הערות'].includes(t.status)).length;
-        const pending = this.tasks.filter(t => ['אפיין', 'החלנו אפיון', 'סיימנו אפיון', 'נשלח אפיון ללקוח', 'הלקוח נתן תיקונים לאפיון', 'הלקוח אישר אפיון'].includes(t.status)).length;
+        const completed = this.tasks.filter(t => ['המשימה גמורה'].includes(t.status)).length;
+        const inProgress = this.tasks.filter(t => ['נשלח למתכנת', 'נשלח לQA', 'QA החזיר הערות', 'לקוח החזיר הערות'].includes(t.status)).length;
+        const pending = this.tasks.filter(t => ['נדרש לאפיין', 'תהליך האפיון החל', 'נדרש אומדן מחיר', 'אומדן מחיר נשלח ללקוח', 'הלקוח אישר הצעת מחיר'].includes(t.status)).length;
         
         document.getElementById('totalTasks').textContent = total;
         document.getElementById('completedTasks').textContent = completed;
