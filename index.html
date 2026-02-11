@@ -161,14 +161,27 @@
                             <textarea id="taskDescription" rows="4" placeholder="תיאור המשימה..."></textarea>
                         </div>
 
+                        <!-- Notes Section -->
+                        <div class="notes-section" id="notesSection" style="margin-top: 1.5rem; display: none;">
+                            <h4 style="margin-bottom: 1rem; color: var(--dark);">
+                                <i class="fas fa-comments"></i> הערות קיימות
+                            </h4>
+                            <div id="currentNotesList" style="max-height: 200px; overflow-y: auto; margin-bottom: 1rem;">
+                                <!-- Notes will be displayed here -->
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label for="taskNote"><i class="fas fa-comment"></i> הערה חדשה</label>
                             <textarea id="taskNote" rows="2" placeholder="הוסף הערה..."></textarea>
+                            <button type="button" class="btn btn-success" onclick="app.addNoteOnly()" style="margin-top: 0.5rem; width: 100%;">
+                                <i class="fas fa-plus-circle"></i> הוסף הערה (ללא סגירה)
+                            </button>
                         </div>
 
                         <div class="form-actions">
                             <button type="submit" class="btn btn-primary">
-                                <i class="fas fa-save"></i> שמור
+                                <i class="fas fa-save"></i> שמור וסגור
                             </button>
                             <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">
                                 <i class="fas fa-times"></i> ביטול

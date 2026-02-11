@@ -296,11 +296,106 @@ class TaskFlowApp {
             document.getElementById('taskDeveloper').value = task.developer;
             document.getElementById('taskStatus').value = task.status;
             document.getElementById('taskDescription').value = task.description || '';
+            
+            // Display existing notes
+            this.displayCurrentNotes(task);
         } else {
             document.getElementById('modalTitle').innerHTML = '<i class="fas fa-plus-circle"></i> משימה חדשה';
+            // Hide notes section for new tasks
+            document.getElementById('notesSection').style.display = 'none';
         }
         
         modal.classList.add('active');
+    }
+    
+    displayCurrentNotes(task) {
+        const notesSection = document.getElementById('notesSection');
+        const notesList = document.getElementById('currentNotesList');
+        
+        if (task.notes && task.notes.length > 0) {
+            notesSection.style.display = 'block';
+            notesList.innerHTML = task.notes.map(note => {
+                const noteTime = note.created_at || note.timestamp;
+                const displayTime = noteTime ? new Date(noteTime).toLocaleString('he-IL', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }) : '';
+                
+                return `
+                    <div style="background: var(--light); padding: 0.75rem; border-radius: 6px; margin-bottom: 0.5rem; border-right: 3px solid var(--success);">
+                        <div style="color: var(--gray); font-size: 0.85rem; margin-bottom: 0.25rem;">
+                            <i class="fas fa-clock"></i> ${displayTime}
+                            ${note.author ? ` • <i class="fas fa-user"></i> ${this.escapeHtml(note.author)}` : ''}
+                        </div>
+                        <div style="color: var(--dark);">${this.escapeHtml(note.text)}</div>
+                    </div>
+                `;
+            }).join('');
+        } else {
+            notesSection.style.display = 'block';
+            notesList.innerHTML = '<p style="color: var(--gray); text-align: center;">אין הערות עדיין</p>';
+        }
+    }
+    
+    async addNoteOnly() {
+        if (!this.editingTaskId) {
+            alert('שמור את המשימה קודם לפני הוספת הערות');
+            return;
+        }
+        
+        const noteText = document.getElementById('taskNote').value.trim();
+        if (!noteText) {
+            alert('נא להזין טקסט להערה');
+            return;
+        }
+        
+        console.log('📝 מוסיף הערה חדשה...');
+        
+        // Find the task
+        const task = this.tasks.find(t => t.id === this.editingTaskId);
+        if (!task) {
+            alert('משימה לא נמצאה');
+            return;
+        }
+        
+        // Create new note
+        const newNote = {
+            text: noteText,
+            timestamp: new Date().toISOString(),
+            created_at: new Date().toISOString(),
+            author: 'מנהל המערכת'
+        };
+        
+        // Add to task notes
+        if (!task.notes) task.notes = [];
+        task.notes.push(newNote);
+        
+        // Save to Supabase
+        if (typeof db !== 'undefined' && db.tablesReady) {
+            try {
+                await db.addNote(this.editingTaskId, newNote);
+                console.log('✅ הערה נשמרה ב-Supabase!');
+            } catch (error) {
+                console.error('שגיאה בשמירת הערה:', error);
+            }
+        }
+        
+        // Save to LocalStorage
+        await this.saveTasks();
+        
+        // Clear the note field
+        document.getElementById('taskNote').value = '';
+        
+        // Refresh the notes display
+        this.displayCurrentNotes(task);
+        
+        // Show success message
+        alert('✅ הערה נוספה בהצלחה!');
+        
+        console.log('✅ הערה נוספה!');
     }
 
     async saveTask(e = null) {
