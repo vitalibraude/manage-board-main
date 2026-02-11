@@ -47,10 +47,18 @@ const STATUS_COLORS = {
 
 class TaskFlowApp {
     constructor() {
-        this.tasks = this.loadTasks();
+        this.tasks = [];
         this.currentView = 'project'; // 'project' or 'developer'
         this.editingTaskId = null;
         this.init();
+    }
+
+    async init() {
+        this.tasks = await this.loadTasks();
+        this.renderContactsDirectory();
+        this.renderView();
+        this.setupEventListeners();
+        this.populateProjectDropdown();
     }
 
     setupEventListeners() {
